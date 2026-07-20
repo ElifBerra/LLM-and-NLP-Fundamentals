@@ -88,12 +88,15 @@ Eğer metinlerin uzunluğuna göre çıkan vektörlerin boyutları değişseydi,
 <img width="355" height="164" alt="image" src="https://github.com/user-attachments/assets/b7dddcb2-2c4a-49a3-9518-2f6b701c2769" />
 
 ● (a) Farklı Kelimeler / Aynı Anlam Skoru: 0.8725 "Hekim" ve "Doktor" cümleleri arasında neredeyse hiçbir ortak kelime olmamasına rağmen model anlamsal benzerliği kusursuzca yakalamış ve %87.2 gibi çok yüksek bir skor fırlatmış. Anlamsal yakınlığın klasik kelime eşleşmesinden farkını burada netçe görebiliyoruz.
+
 ● (b) Aynı Kelimeler / Farklı Anlam Skoru: 0.9911 İşte az önce bahsettiğimiz embedding modellerinin en büyük zafiyeti ve kör noktası! "Köpek kediyi kovaladı" ile "Kedi köpeği kovaladı" cümleleri mantıksal olarak birbirinin taban tabana zıttı olmasına rağmen model bunlara %99.1 oranında (neredeyse tamamen aynı cümlelermiş gibi) benzerlik skoru verdi.
+
 →Standart embedding modelleri kelimelerin genel "konusunu", "ortamını" ve "anlamlarını" harika yakalar; iki cümlede de kedi, köpek ve kovalama eylemi geçtiği için onları uzayda yan yana konumlandırır. Ancak cümle içindeki özne-nesne ilişkisini, mantıksal yönü ve sıra detaylarını (syntax) yakalamakta kör kalabilir. Bu yüzden production mimarilerinde sadece embedding uzayına güvenilmez, tam kelime eşleşmesini de koruyan Hibrit Arama (Hybrid Search) yapıları tercih edilir. 
 
 <img width="309" height="285" alt="image" src="https://github.com/user-attachments/assets/9e147f70-48b4-48a0-b193-6796fc4b734e" />
 
 ● Grafikteki renk skalasına bakarsak, değerler 1.0'a yaklaştıkça mavi renk belirgin şekilde koyulaşıyor. "Kedi" ve "Bir pisi" cümlelerinin kesişimi 0.59 değeriyle orta koyulukta bir mavi almış. "Borsa" ve "Dolar" cümlelerinin kesişimi ise kendi aralarında pozitif bir yönde. Hayvan cümleleri ile ekonomi cümlelerinin kesiştiği pencereler ise tamamen beyaza yakın (örneğin 0.019, 0.024 gibi sıfıra çok yakın değerler) kalarak anlamsal olarak tamamen ayrıştıklarını kanıtlıyor.
+
 ● Sol üstten sağ alta doğru inen çapraz hattın (köşegen) tamamen en koyu mavi renkle 1 olmasının sebebi, her cümlenin matriste kendisiyle kıyaslanmasıdır. Bir vektörün kendisiyle olan yönü ve doğrultusu tamamen aynı olduğu için kosinüs benzerliği değeri maksimum sınır olan 1.0 çıkar. 
 
 <img width="371" height="373" alt="image" src="https://github.com/user-attachments/assets/78760f80-c92c-46cc-802f-1390d8705e1c" />
@@ -105,13 +108,16 @@ Eğer metinlerin uzunluğuna göre çıkan vektörlerin boyutları değişseydi,
 
 <img width="360" height="522" alt="image" src="https://github.com/user-attachments/assets/e23d9ab2-3027-4d51-8ce1-f255bbed962f" />
 ● K-Means'in cümleleri doğru konulara tam olarak doğru ayırdığını söyleyemeyiz. Algoritma kedi, pisi ve köpek cümlelerini başarıyla aynı gruba toplarken, tamamen farklı bir finans konusu olan "Borsa bugün yüzde üç düştü." cümlesini de bu gruba dahil etmiştir. Buna karşılık "Dolar kuru sabah yükseldi." cümlesini tek başına ayrı bir kümeye koymuştur. Ancak modele hangi cümlenin hangi konudan olduğuna dair hiçbir label vermememize rağmen veriyi kendi içinde sayısal yakınlıklara göre gruplaması, Unsupervised Learning’in net bir çalışmasıdır. 
+
 ● Görsel düzlemde net bir ayrışma fark ediliyor. Hayvan temalı 3 cümle grafiğin sağ tarafında yatay bir hat üzerinde kümelenirken, ekonomi temalı iki cümle (borsa ve dolar) grafiğin sol tarafında alt alta konumlanarak kendi içlerinde ayrı bir blok oluşturmuş durumdalar. 
 
 <img width="366" height="457" alt="image" src="https://github.com/user-attachments/assets/5c9b6e81-62e9-4a77-a719-0075ad1b9fa0" />
 ● n_clusters = 2  Durumu ([0 0 0 0 1]):
 "Dolar kuru" kırmızı renkle tek başına bir küme olurken, geriye kalan 4 cümle (Borsa dahil) mor renkle tek bir kümede toplanmış. Verideki 2 ana konsepti (Hayvan-Ekonomi) yakalamaya en yakın çalışan, yani varyansı en geniş hatlarıyla bölmeye çalışan temel yapı budur.
+
 ● n_clusters = 3  Durumu ([2 0 0 1 0]):
 Algoritma "Borsa" ve "Kedi" cümlelerini tek başlarına birer küme haline getirmiş; "Dolar", "Pisi" ve "Köpek" cümlelerini ise aynı kümeye sıkıştırmış. Hayvan ve ekonomi kavramları matematiksel olarak tamamen birbirine girmiş durumda.
+
 ● n_clusters = 4  Durumu ([2 0 0 1 3]):
 Burada zaten toplamda 5 cümlemiz olduğu için sistem neredeyse her noktayı ayrı bir küme yapmış: "Borsa" , "Kedi" , "Dolar" , "Köpek" şeklinde dağılıyor. Sadece "Pisi" ve "Köpek" aynı renkte kalmış.
 
@@ -123,10 +129,13 @@ Burada zaten toplamda 5 cümlemiz olduğu için sistem neredeyse her noktayı ay
 
 → Matematiksel Arka Plan (384 → 2):
 Modelin ürettiği embedding vektörleri normalde 384 boyutlu devasa bir hiper-uzayda yaşar. Lineer cebirsel bir yöntem olan PCA (Temel Bileşenler Analizi), bu 384 eksendeki bilgiyi en iyi temsil edecek şekilde seçtiği en baskın 2 yeni eksene (Temel Bileşen 1 ve Temel Bileşen 2) izdüşürür.
+
 → Neden "Basitleştirilmiş Bir Gölge"?
 384 boyuttaki geometrik uzaklıkları ve ince anlamsal ilişkileri sadece 2 boyuta sıkıştırdığımızda, verinin içindeki birçok varyans ve detay kaçınılmaz olarak kaybolur. Tıpkı 3 boyutlu elinin duvara yansıyan gölgesinin, elinin derinliğini, rengini veya parmaklarının tam yerleşimini tam olarak gösterememesi gibidir. Grafikte "Borsa" cümlesinin hayvan kümesine yakın durması ya da k=3, 4 yapıldığında kümelerin birbirine karışması tamamen bu sıkışmadan kaynaklanan bir illüzyondur.
+
 → "Yine de Örüntüyü Görmeye Yeter" Ne Demek?
 Her ne kadar veri ve detay kaybetsek de, PCA en yüksek varyansı korumaya çalıştığı için verinin genel hatlarını, büyük gruplanmaları ve zıt kutupları (örneğin hayvan cümlelerinin sağda, ekonomi cümlelerinin solda kümelenme eğilimini) insan gözünün algılayabileceği bir düzleme indirger.
+
 → Yüksek boyutlu verilerle çalışırken görselleştirme yapmak, gerçeğin mükemmel bir resmini sunmaz; sadece basitleştirilmiş bir haritasını verir. Kümeleme ve benzerlik hesaplamaları her zaman arka plandaki orijinal yüksek boyutlu (384) uzayda yapılmalı, 2 boyutlu grafikler (PCA) ise sadece örüntüleri kabaca gözlemlemek ve sezgi geliştirmek için bir araç olarak kullanılmalıdır. 
 
 
