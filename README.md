@@ -67,6 +67,7 @@ Proje kapsamında kelime ve cümlelerin anlamsal uzaydaki sayısal dinamikleri i
 ● PyTorch motoru kurduk.
 
 <img width="251" height="91" alt="image" src="https://github.com/user-attachments/assets/fc1be5cc-86a3-4846-9ed9-9d4cbeb29baa" />
+
 ● sentence-transformers Kütüphanesi Kurulumunu yaptık.
 <img width="342" height="362" alt="image" src="https://github.com/user-attachments/assets/25e80c64-bb53-467b-8545-e7bc747e1102" />
 
