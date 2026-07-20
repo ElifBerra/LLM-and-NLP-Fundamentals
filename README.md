@@ -43,9 +43,11 @@ Proje kapsamında kelime ve cümlelerin anlamsal uzaydaki sayısal dinamikleri i
 <img width="582" height="422" alt="image" src="https://github.com/user-attachments/assets/6aad7f66-6d2a-4918-9c8f-87a774c1f48a" />
 
  ● Kelimeler beklediğimden çok daha küçük parçalara bölündü. Örneğin model, "Yapay" kelimesini bile bütün olarak tanıyamayıp ['Ya', '##pa', '##y'] şeklinde 3 ayrı alt parçaya; "öğrenmesi" kelimesini ise ['ö', '##ğ', '##ren', '##mesi'] şeklinde 4 parçaya ayırdı. Modelin subword seviyesinde en küçük harf kombinasyonlarına kadar indiğini gördüm.
+ 
 <img width="476" height="386" alt="image" src="https://github.com/user-attachments/assets/f592e755-2131-405c-97e5-1dcb6cede382" />
 
 ● Çok dilli (multilingual) büyük modellerin eğitim veri setlerinin (corpus) ezici bir çoğunluğu İngilizce metinlerden oluşur. Bu nedenle İngilizce kelimelerin neredeyse tamamı modelin sözlüğünde (Vocabulary) tek parça halinde yer alırken, Türkçe kelimeler hem eklemeli dil yapımız hem de veri setlerindeki azınlık durumu nedeniyle sürekli kök ve ek parçalarına (##) bölünmek zorunda kalır.
+
 <img width="647" height="212" alt="image" src="https://github.com/user-attachments/assets/1cb01e71-78ae-408e-92a4-6cf167a50e1d" />
 
 ● Model "Çekoslovakya" ülkesini bile tek parça tanıyamamış; onu bile ç, ##eko, ##sl, ##ova, ##ky diye 5 ayrı parçaya bölmüş! Kelimenin geri kalan eklerini ise (##alı, ##la, ##ştı...) dildeki en sık geçen harf kombinasyonlarına göre ayırarak toplamda tam 14 parçaya bölmüş.
@@ -53,13 +55,19 @@ Proje kapsamında kelime ve cümlelerin anlamsal uzaydaki sayısal dinamikleri i
  ● Parçalanan eleman sayısı 14 olmasına rağmen len(tok.encode(zor_kelime)) sonucunun 16 çıkma sebebi, 101 ([CLS]) ve en sondaki 102 ([SEP]) özel sinyal ID'leridir.
 
  ● 1. Context WindowAçısından Anlamı:
+ 
 ● Hafızanın Hızlı Dolması: Büyük dil modellerinin tek seferde işleyebileceği maksimum bir token limiti (Context Window) vardır.
+
 ● Türkçe metinler, bu örnekte canlı canlı gördüğün gibi kelime bütünlüğüyle tanınmayıp sürekli en küçük hece ve ek parçalarına (##) bölündüğü için, İngilizceye kıyasla 3-4 kat daha fazla token harcar.
+
 ● Bu durum, modelin kısa süreli hafızasını çok daha agresif bir şekilde tüketir. Örneğin; İngilizce bir dökümanın 10.000 kelimesini modele tek seferde pürüzsüzce okutabilirken, aynı bilginin Türkçe karşılığı alt parçalara çok bölündüğü için belki de 3.000 kelimede hafıza limitine (Context Window) çarparak tıkanacaktır.
 
 ● 2. API Maliyeti Açısından Anlamı:
+
 ● Ekonomik Dezavantaj (Maliyet Tuzağı): OpenAI (GPT serisi), Anthropic (Claude) veya Mistral gibi ticari yapay zeka sağlayıcılarının tamamı seni yazdığın karakter veya kelime sayısına göre değil; arka planda harcanan "Token Sayısı" üzerinden faturalandırır.
+
 ● Ekranda gördüğün gibi, Türkçede tek bir kelime bile kendi içinde 14 farklı tokene parçalanıp maliyet çarpanını katlayabiliyor.
+
 ●Dolayısıyla, bir yazılım mimarı olarak production ortamına kod yazarken, tamamen aynı anlama gelen bir prompt/girdi sisteminin Türkçe sürümü arka planda devasa token dizileri ürettiği için, projenin operasyonel bulut bütçesi İngilizcesine kıyasla her zaman çok daha pahalıya patlayacaktır.
 
 <img width="474" height="239" alt="image" src="https://github.com/user-attachments/assets/8d64db3c-9cd0-43ed-aa4c-aebac43433bb" />
@@ -72,17 +80,23 @@ Proje kapsamında kelime ve cümlelerin anlamsal uzaydaki sayısal dinamikleri i
 <img width="342" height="362" alt="image" src="https://github.com/user-attachments/assets/25e80c64-bb53-467b-8545-e7bc747e1102" />
 
 ● Çalıştırdığım kodun çıktısında vektörün boyutu 384 olarak göründü.
+
 → Girdiğim "Bugün hava çok güzel." cümlesi, embedding modeli tarafından 384 adet ondalıklı sayıdanoluşan tek bir diziye (vektöre) dönüştürülmüştür. Geometrik açıdan bakarsak; bu metin artık 384 boyutlu bir koordinat uzayında tek bir nokta koordinat olarak temsil edilmektedir.
+
 → Tek tek bakıldığında hiçbir sayı tek başına anlamlı veya okunabilir bir bilgi sunmaz. Örneğin ilk sayının 0.2483785 olması bize "hava" ya da "güzel" kelimesine dair tek başına hiçbir şey ifade etmez.
+
 →Dil modellerinde anlamsal öz; tek bir sayının değerinde değil, o 384 sayının birlikte oluşturduğu benzersiz örüntüde, dağılımda ve yönelimde saklıdır.
+
 <img width="371" height="121" alt="image" src="https://github.com/user-attachments/assets/6d7ba18e-eaed-4fae-b5c6-73f97f0ce0e4" />
 
 ● İster tek kelimelik bir metin girilsin ister uzun bir cümle, model her iki durumda da dışarıya tam olarak aynı uzunlukta, yani 384 boyutlu bir liste fırlatır.
+
 Eğer metinlerin uzunluğuna göre çıkan vektörlerin boyutları değişseydi, onları birbiriyle matris çarpımlarına sokamazdık. İki farklı metnin anlamsal yakınlığını ölçebilmemiz, onları matematiksel olarak karşılaştırabilmemiz ve aynı veritabanında saklayabilmemiz için boyutların tamamen sabit uzunlukta olması zorunludur.
 
 <img width="369" height="301" alt="image" src="https://github.com/user-attachments/assets/19c0e7ea-c66b-4ba8-bc34-36cfbfb60c86" />
 
 ● Kedi-Pisi cümleleri arasındaki ortak tek bir kelime bile yok. Buna rağmen kosinüs benzerliği skoru 0.5932 gibi yüksek bir oranda anlam yakınlığı verdi. Borsa cümlesiyle olan alakasız skor ise sıfıra yakın (0.0185) çıktı.
+
 →Klasik arama mantığı (keyword search) olsaydı bu iki cümlenin ortak kelimesi olmadığı için benzerlik skoru 0 çıkardı. Ancak embedding modeli, metinleri kelime karakteri olarak değil, anlamsal uzaydaki vektör doğrultuları olarak eşleştirir. "Kedi-pisi", "bahçe-çimen" ve "uyumak-şekerleme yapmak" kavramları uzayda birbirine çok yakın yönlere baktığı için, sistem ortak kelime olmasa bile anlamsal yakınlığı pürüzsüzce yakalamıştır.
 
 <img width="355" height="164" alt="image" src="https://github.com/user-attachments/assets/b7dddcb2-2c4a-49a3-9518-2f6b701c2769" />
