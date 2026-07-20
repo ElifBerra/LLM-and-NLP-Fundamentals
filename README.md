@@ -35,5 +35,4 @@ Proje kapsamında kelime ve cümlelerin anlamsal uzaydaki sayısal dinamikleri i
 * **Makine Öğrenmesi:** `scikit-learn` (`KMeans`, `PCA`)
 * **Veri Görselleştirme:** `matplotlib`, `seaborn`
 
-```bash
-pip install sentence-transformers scikit-learn matplotlib seaborn
+
