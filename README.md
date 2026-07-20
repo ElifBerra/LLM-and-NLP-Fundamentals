@@ -107,11 +107,13 @@ Eğer metinlerin uzunluğuna göre çıkan vektörlerin boyutları değişseydi,
 ● scikit-learn Kurulumu
 
 <img width="360" height="522" alt="image" src="https://github.com/user-attachments/assets/e23d9ab2-3027-4d51-8ce1-f255bbed962f" />
+
 ● K-Means'in cümleleri doğru konulara tam olarak doğru ayırdığını söyleyemeyiz. Algoritma kedi, pisi ve köpek cümlelerini başarıyla aynı gruba toplarken, tamamen farklı bir finans konusu olan "Borsa bugün yüzde üç düştü." cümlesini de bu gruba dahil etmiştir. Buna karşılık "Dolar kuru sabah yükseldi." cümlesini tek başına ayrı bir kümeye koymuştur. Ancak modele hangi cümlenin hangi konudan olduğuna dair hiçbir label vermememize rağmen veriyi kendi içinde sayısal yakınlıklara göre gruplaması, Unsupervised Learning’in net bir çalışmasıdır. 
 
 ● Görsel düzlemde net bir ayrışma fark ediliyor. Hayvan temalı 3 cümle grafiğin sağ tarafında yatay bir hat üzerinde kümelenirken, ekonomi temalı iki cümle (borsa ve dolar) grafiğin sol tarafında alt alta konumlanarak kendi içlerinde ayrı bir blok oluşturmuş durumdalar. 
 
 <img width="366" height="457" alt="image" src="https://github.com/user-attachments/assets/5c9b6e81-62e9-4a77-a719-0075ad1b9fa0" />
+
 ● n_clusters = 2  Durumu ([0 0 0 0 1]):
 "Dolar kuru" kırmızı renkle tek başına bir küme olurken, geriye kalan 4 cümle (Borsa dahil) mor renkle tek bir kümede toplanmış. Verideki 2 ana konsepti (Hayvan-Ekonomi) yakalamaya en yakın çalışan, yani varyansı en geniş hatlarıyla bölmeye çalışan temel yapı budur.
 
