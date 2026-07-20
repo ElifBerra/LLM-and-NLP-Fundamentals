@@ -77,6 +77,7 @@ Proje kapsamında kelime ve cümlelerin anlamsal uzaydaki sayısal dinamikleri i
 <img width="251" height="91" alt="image" src="https://github.com/user-attachments/assets/fc1be5cc-86a3-4846-9ed9-9d4cbeb29baa" />
 
 ● sentence-transformers Kütüphanesi Kurulumunu yaptık.
+
 <img width="342" height="362" alt="image" src="https://github.com/user-attachments/assets/25e80c64-bb53-467b-8545-e7bc747e1102" />
 
 ● Çalıştırdığım kodun çıktısında vektörün boyutu 384 olarak göründü.
@@ -118,6 +119,7 @@ Eğer metinlerin uzunluğuna göre çıkan vektörlerin boyutları değişseydi,
 ● Model, cümlelerin hangi konudan geldiğini hiçbir etiket (label) olmadan, sadece anlamsal uzaydaki yönlerine bakarak pürüzsüzce ayrıştırmayı başardı. 
 
 <img width="647" height="106" alt="image" src="https://github.com/user-attachments/assets/ab9a5170-142b-429f-a628-5d2ece26171c" />
+
 ● scikit-learn Kurulumu
 
 <img width="360" height="522" alt="image" src="https://github.com/user-attachments/assets/e23d9ab2-3027-4d51-8ce1-f255bbed962f" />
